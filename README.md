@@ -1,4 +1,5 @@
 After first evaluation, changes made:
+	
 	1) document.getElementsByClassName('') is used instead of querySelectorAll('.').
 
 	2) Created variables dx and newwidth outside of loop since all pizzas are same size. 
