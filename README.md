@@ -1,6 +1,6 @@
 Changes are made after first evaluation:
-1) use document.getElementsByClassName('') instead of querySelectorAll('.')
-2) Create variables dx and newwidth outside of loop since all pizzas are same size. 
+1) document.getElementsByClassName('') is used instead of querySelectorAll('.')
+2) Created variables dx and newwidth outside of loop since all pizzas are same size. 
 -------------------
 1) Edited index.html to increase pagespeed to 90 or over for both desktop and mobile:
 	Added async to javascripts.
