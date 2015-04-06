@@ -1,16 +1,12 @@
 /*
 Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
 jank-free at 60 frames per second.
-
 There are two major issues in this code that lead to sub-60fps performance. Can
 you spot and fix both?
-
-
 Built into the code, you'll find a few instances of the User Timing API
 (window.performance), which will be console.log()ing frame rate data into the
 browser console. To learn more about User Timing API, check out:
 http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
-
 Creator:
 Cameron Pittman, Udacity Course Developer
 cameron *at* udacity *dot* com
@@ -285,25 +281,22 @@ function getNoun(y) {
 var adjectives = ["dark", "color", "whimsical", "shiny", "noise", "apocalyptic", "insulting", "praise", "scientific"];  // types of adjectives for pizza titles
 var nouns = ["animals", "everyday", "fantasy", "gross", "horror", "jewelry", "places", "scifi"];                        // types of nouns for pizza titles
 
-//Project4 - Create variables to prevent repeated object.method call
-var adjLength = adjectives.length;
-var nounLength = nouns.length;
+// Project4 - move var randomAdj and randNoun outside for reuse
+  var randomAdjective = parseInt(Math.random() * adjectives.length);
+  var randomNoun = parseInt(Math.random() * nouns.length);
+
 // Generates random numbers for getAdj and getNoun functions and returns a new pizza name
 function generator(adj, noun) {
   var adjectives = getAdj(adj);
   var nouns = getNoun(noun);
-  var randomAdjective = parseInt(Math.random() * adjLength);
-  var randomNoun = parseInt(Math.random() * nounLength);
   var name = "The " + adjectives[randomAdjective].capitalize() + " " + nouns[randomNoun].capitalize();
   return name;
-}
+};
 
 // Chooses random adjective and random noun
 function randomName() {
-  var randomNumberAdj = parseInt(Math.random() * adjLength);
-  var randomNumberNoun = parseInt(Math.random() * nounLength);
-  return generator(adjectives[randomNumberAdj], nouns[randomNumberNoun]);
-}
+  return generator(adjectives[randomAdjective], nouns[randomNoun]);
+};
 
 // These functions return a string of a random ingredient from each respective category of ingredients.
 var selectRandomMeat = function() {
@@ -386,6 +379,7 @@ var pizzaElementGenerator = function(i) {
   pizzaImageContainer.appendChild(pizzaImage);
   pizzaContainer.appendChild(pizzaImageContainer);
 
+
   pizzaDescriptionContainer.classList.add("col-md-6");
 
   pizzaName = document.createElement("h4");
@@ -404,9 +398,8 @@ var pizzaElementGenerator = function(i) {
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
-  // Project4 - Combine the changeSliderLabel method's logic inside the sizeSwitcher
   // Changes the value for the size of the pizza above the slider
-  /*function changeSliderLabel(size) {
+  function changeSliderLabel(size) {
     switch(size) {
       case "1":
         document.querySelector("#pizzaSize").innerHTML = "Small";
@@ -421,28 +414,24 @@ var resizePizzas = function(size) {
         console.log("bug in changeSliderLabel");
     }
   }
-  changeSliderLabel(size);*/
+
+  changeSliderLabel(size);
 
   // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
   function determineDx (elem, size) {
     var oldwidth = elem.offsetWidth;
     var windowwidth = document.querySelector("#randomPizzas").offsetWidth;
     var oldsize = oldwidth / windowwidth;
-
+                console.log("=======oldsize: " + oldsize);
     // TODO: change to 3 sizes? no more xl?
     // Changes the slider value to a percent width
     function sizeSwitcher (size) {
-      // Project4 - create variable to prevent repeated call.
-      var pizzaSize = document.querySelector("#pizzaSize").innerHTML;
       switch(size) {
         case "1":
-          pizzaSize= "Small";
           return 0.25;
         case "2":
-          pizzaSize= "Medium";
           return 0.3333;
         case "3":
-          pizzaSize= "Large";
           return 0.5;
         default:
           console.log("bug in sizeSwitcher");
@@ -455,14 +444,15 @@ var resizePizzas = function(size) {
     return dx;
   }
 
+  //Project4 - create variable outside of loop to obtimize the page
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    //Project4 - create variable outside of loop to obtimize the page
-    var randomPizza = document.querySelectorAll(".randomPizzaContainer");
-    for (var i = 0; i < randomPizza.length; i++) {
-      var dx = determineDx(randomPizza[i], size);
-      var newwidth = (randomPizza[i].offsetWidth + dx) + 'px';
-      randomPizza[i].style.width = newwidth;
+    var randomPizzaContainer = document.getElementsByClassName("randomPizzaContainer");
+    var dx = determineDx(randomPizzaContainer[0], size);
+    var newwidth = (randomPizzaContainer[0].offsetWidth + dx) + 'px';
+    for (var i = 0; i <  randomPizzaContainer.length; i++) {
+      randomPizzaContainer[i].style.width = newwidth;
+      console.log("========= dx and newwidth=" + dx, newwidth);
     }
   }
 
@@ -477,10 +467,9 @@ var resizePizzas = function(size) {
 
 window.performance.mark("mark_start_generating"); // collect timing data
 
-// Project4- move the variable outside of for loop
-var pizzasDiv = document.getElementById("randomPizzas");
 // This for-loop actually creates and appends all of the pizzas when the page loads
 for (var i = 2; i < 100; i++) {
+  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -512,8 +501,8 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
-  // Project4 - create this variable outside of loop to prevent same calculation 200 times.
+  // Project 4 - used getElementsByClassName instead
+  var items = document.getElementsByClassName('mover');
   var scroll = document.body.scrollTop / 1250;
   for (var i = 0; i < items.length; i++) {
     var phase = Math.sin(scroll + (i % 5));
