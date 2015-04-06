@@ -1,6 +1,7 @@
-Changes are made after first evaluation:
+After first evaluation, changes made:
 1) document.getElementsByClassName('') is used instead of querySelectorAll('.')
 2) Created variables dx and newwidth outside of loop since all pizzas are same size. 
+
 -------------------
 1) Edited index.html to increase pagespeed to 90 or over for both desktop and mobile:
 	Added async to javascripts.
