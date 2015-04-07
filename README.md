@@ -1,3 +1,12 @@
+Second attempt:
+
+1) main.js - 	changePizzaSizes(): Caching of variable.
+ 
+				updatePositions(): caching of variable AND implement translateX() for better painting and rendering.
+	
+2) index.html -	removed inline css, added link to style min 
+
+---------------------------------
 After first evaluation, changes made:
 	
 	1) document.getElementsByClassName('') is used instead of querySelectorAll('.').
@@ -6,6 +15,7 @@ After first evaluation, changes made:
 
 -------------------
 1) Edited index.html to increase pagespeed to 90 or over for both desktop and mobile:
+
 	Added async to javascripts.
 	Changed google font from link href to javascript.
 	Implement inline css instead of link to css.
@@ -13,6 +23,7 @@ After first evaluation, changes made:
 	Resize images
 
 2) Optimized and minified main.js for pizza.html to increase 60 fps or higher.
+
 	Created variables for reuse, and removed unecessary code from for loops.
 	Combined logics of 2 methods into 1 since they both use the same variable for case statement.
 	Added comments started with text "Project4"
